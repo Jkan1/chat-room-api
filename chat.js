@@ -40,12 +40,14 @@ chatSpace.on('connection', (socket) => {
         socket.emit('usernameFailure', { message: "username already taken" });
       }
     }
+    console.log(socket.username+" connected as "+socket.id);
   })
 
   socket.on('sendMessage', data => {
     //Perform DB calls
     socket.emit('messageSent', { message: data.message })
-    setTimeout(() => { socket.emit('receivedMessage', { message: "hello " + socket.username }) }, 2000)
+    // setTimeout(() => { socket.emit('receivedMessage', { message: "hello " + socket.username }) }, 2000)
+    socket.emit('receivedMessage', { message: data.message + socket.username })
   })
 
   socket.on('getOnlineUsers', (data) => {

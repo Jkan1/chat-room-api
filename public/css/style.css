@@ -3,7 +3,7 @@
   display: block;
 }
 #rightContainer2{
-  display: none;
+  display: block;
 }
 #sideBoard {
   margin-top: 20px;
@@ -12,13 +12,13 @@
   padding-bottom: 5px;
   padding-left: 20px;
   padding-right: 5px;
-  font-size: 4vmin;
+  font-size: 2vmin;
   overflow: scroll;
 }
 #sideBoard::-webkit-scrollbar { width: 0 !important }
 #sideBoard{ overflow: -moz-scrollbars-none; -ms-overflow-style: none; }
-#onlineUser,#offlineUser {cursor: pointer;}
-#onlineUser::before {
+.onlineUser,.offlineUser {cursor: pointer;}
+.onlineUser::before {
   color: lime;
   content: "\2022";
   font-size: 1em;
@@ -26,7 +26,7 @@
   position: relative;
   top: 0em; 
 }
-#offlineUser::before {
+.offlineUser::before {
   color: red;
   content: "\2022";
   font-size: 1em;
@@ -56,4 +56,19 @@
 #message2{
   text-align: left;
   color: red;
+}
+
+.loader {
+  border: 3px solid #f3f3f3; /* Light grey */
+  border-top: 3px solid #000000; /* Blue */
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 0.5s linear infinite;
+  display: block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
