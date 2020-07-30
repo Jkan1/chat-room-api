@@ -16,22 +16,20 @@
 <body>
   <div class="row mainContainer">
 
-    <div class="col s12 m4 l3 red lighten-5">
+    <div class="col s12 m4 l3 grey lighten-5">
       <div class="container leftContainer">
         <h5>
           <center>sideboard</center>
         </h5>
-        <input type="button" class="btn-small blue lighten-4 blue-text text-darken-3" value="refresh"
+        <input type="button" class="btn-small grey blue-text text-darken-3" value="refresh"
           onclick="checkOnlineUsers()">
-        <ul class="card red lighten-4" id="sideBoard">
+        <ul class="card grey lighten-4" id="sideBoard">
           <span class="grey-text text-lighten-1">no users yet </span>
-          <!-- <li class="card hoverable" id="onlineUser" onclick="selectUser(this)">one</li>
-          <li class="card grey" id="onlineUser">two</li> -->
         </ul>
       </div>
     </div>
 
-    <div class="col s12 m8 l9 blue lighten-5">
+    <div class="col s12 m8 l9 grey ">
 
       <div id="rightContainer1">
         <div class="container">
@@ -41,7 +39,7 @@
               <input class="center-align" type="text" id="usernameInput">
             </div>
             <center>
-              <input class="btn red" type="button" value="GO!" onClick="onUsernameInput()">
+              <input class="btn grey" type="button" value="GO!" onClick="onUsernameInput()">
             </center>
           </div>
         </div>
@@ -53,7 +51,7 @@
             <center>messageboard</center>
           </h5>
           To <span id="selectedUser">-----</span>
-          <ul class="card-content blue lighten-5" id="messageBoard">
+          <ul class="card-content grey" id="messageBoard">
             <li id="message2">Welcome</li>
           </ul>
           <div class="card-action">
@@ -62,7 +60,7 @@
                 <input type="text" id="messageInput">
               </div>
               <div class="input-field col s2 m1">
-                <input class="btn-floating btn blue" type="button" value="send" onclick="onMessageSend()">
+                <input class=" btn grey" type="button" value="send" onclick="onMessageSend()">
               </div>
             </div>
           </div>

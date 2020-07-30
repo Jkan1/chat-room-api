@@ -51,9 +51,9 @@
 }
 #message1{ 
   text-align: right;
-  color: darkgreen;
+  color: rgb(36, 36, 36);
 }
 #message2{
   text-align: left;
-  color: red;
+  color: rgb(0, 7, 100);
 }

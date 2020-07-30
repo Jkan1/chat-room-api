@@ -45,11 +45,11 @@ chatSpace.on('connection', (socket) => {
   socket.on('sendMessage', data => {
     //Perform DB calls
     socket.emit('messageSent', { message: data.message })
-    setTimeout(() => { socket.emit('receivedMessage', { message: "hello " + socket.username }) }, 2000)
+    // setTimeout(() => { socket.emit('receivedMessage', { message: "hello " + socket.username }) }, 2000)
   })
 
   socket.on('getOnlineUsers', (data) => {
-    socket.emit('showOnlineUsers', { users: clients })
+    socket.emit('showOnlineUsers', { users: clients });
   })
 
   socket.on('disconnect', function () {
@@ -63,12 +63,22 @@ chatSpace.on('connection', (socket) => {
 
 
   socket.on('sendTo',(data)=>{
+    console.log("SEND TO DATA",data);
+    console.log("ROOMS", rooms);
+    console.log("clients", clients);
     rooms.push(data.to);
     socket.join(data.to);
-    socket.to(data.to).emit('message',data.message);
+    socket.to(data.to).emit('receivedMessage', data.message || "asdasdASLLL");
   })
 
-
+  socket.on('JoinRoom', (data) => {
+    console.log(data);
+    // console.log(socket.adapter.rooms);
+    // Object.keys(socket.adapter.rooms).forEach((roomName)=>{
+      socket.leaveAll()
+    // })
+    socket.join(data.roomName);
+  })
 
 
 });

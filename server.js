@@ -48,12 +48,12 @@ nsp.on('connection', function(socket) {
    nsp.emit('hi', 'Hello everyone!');
 });
 
-var nsp  = io.of('/my-namespace');
+// var nsp  = io.of('/my-namespace');
 
-nsp.on('connection', function(socket){
-  console.log("someone connected");
-})
-nsp.emit("hi","everyone");
+// nsp.on('connection', function(socket){
+//   console.log("someone connected");
+// })
+// nsp.emit("hi","everyone");
 
 io.on('connection', function(socket){
   socket.join('some room');

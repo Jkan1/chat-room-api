@@ -6,25 +6,12 @@ socket.on('messageSent', messageSent);
 socket.on('receivedMessage', receivedMessage);
 socket.on('showOnlineUsers', refreshOnlineUsers);
 
-// window.setInterval(() => {
-//   socket.emit('getOnlineUsers', "get online users list");
-//   // var scroll = document.getElementById('messageBoard');
-//   // scroll.scrollTop = scroll.scrollHeight;
-//   // scroll.animate({ scrollTop: scroll.scrollHeight }, { duration: 2000 });
-// }, 2000)
-
 function scrollMessageBoard() {
   var scroll = document.getElementById('messageBoard');
   scroll.scrollTop = scroll.scrollHeight;
   scroll.animate({ scrollTop: scroll.scrollHeight }, { duration: 2000 });
 }
 
-//   $(function(){
-//      $("#submit").click(function(){
-//          $('#scrollChat').animate({
-//              scrollTop: $('#scrollChat')[0].scrollHeight}, "slow");
-//      });
-//  });
 
 function onUsernameInput() {
   let usernameInput = document.getElementById('usernameInput');
@@ -68,18 +55,21 @@ function messageSent(data) {
 }
 
 function sendMessage(data) {
+  sendToUser();
   socket.emit("sendMessage", { message: data });
 }
 
 function onMessageSend() {
   let messageInput = document.getElementById("messageInput");
   let data = messageInput.value;
+  console.log(data);
   sendMessage(data);
 }
 
 function receivedMessage(data) {
+
   let messageNode = document.createElement("LI");
-  let textnode = document.createTextNode(data.message);
+  let textnode = document.createTextNode(data);
   messageNode.id = "message2";
   messageNode.appendChild(textnode);
   document.getElementById("messageBoard").appendChild(messageNode);
@@ -110,12 +100,15 @@ function displayOnlineUser(user) {
 }
 
 function selectUser(selectedItem){
-  selectedItem.setAttribute("onClick", "selectUser(this)" );
+  // selectedItem.setAttribute("onClick", "selectUser(this)" );
   document.getElementById('selectedUser').innerHTML = selectedItem.innerHTML;
+  socket.emit("JoinRoom", { roomName: selectedItem.innerHTML })
 }
 
 function sendToUser(){
   let data = document.getElementById("messageInput").value;
+  console.log(data);
   let user = document.getElementById("selectedUser").innerHTML;
+  console.log({ to: user, message: data });
   socket.emit('sendTo',{to:user,message:data})
 }
