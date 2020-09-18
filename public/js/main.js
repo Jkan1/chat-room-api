@@ -1,7 +1,8 @@
-var socket = io();
-
+var socket = io('http://localhost:3003');
+var GLOBAL_USERNAME;
 socket.on('usernameSuccess', successUsername);
 socket.on('usernameFailure', failureUsername);
+
 socket.on('messageSent', messageSent);
 socket.on('receivedMessage', receivedMessage);
 socket.on('showOnlineUsers', refreshOnlineUsers);
@@ -12,26 +13,24 @@ function scrollMessageBoard() {
   scroll.animate({ scrollTop: scroll.scrollHeight }, { duration: 2000 });
 }
 
-
-function onUsernameInput() {
-  let usernameInput = document.getElementById('usernameInput');
-  let username = usernameInput.value;
-  if (username && username.length > 2) {
-    createUser(username);
+function onUsernameSubmit() {
+  let userNameInput = document.getElementById('userNameInput');
+  let username = userNameInput.value;
+  console.log("username : ",username);
+  if (username && username.length > 2 && username.length <= 8) {
+    socket.emit('initUser', { username: username });
   } else {
-    alert("enter correct username");
+    alert("Enter valid username (min length 3 | max length 8)");
+    document.getElementById('userNameInput').value = '';
   }
 }
 
-function createUser(data) {
-  socket.emit('createUser', { username: data });
-}
-
-function successUsername(data) {
-  let rightContainer1 = document.getElementById('rightContainer1');
-  let rightContainer2 = document.getElementById('rightContainer2');
-  rightContainer1.style.display = 'none';
-  rightContainer2.style.display = 'block';
+function successUsername(username) {
+  GLOBAL_USERNAME = username;
+  let userCreation = document.getElementById('user-creation');
+  let messageSpace = document.getElementById('message-space');
+  userCreation.style.display = 'none';
+  messageSpace.style.display = 'block';
 }
 
 function failureUsername(data) {

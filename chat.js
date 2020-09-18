@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+
 const socket_io = require('socket.io');
 const socketIO = socket_io(server);
 
@@ -13,31 +14,35 @@ let clients = [];
 app.use('/', express.static('public'));
 
 app.get('/', function (req, res) {
-  res.sendfile('index.html');
+  res.sendFile('index.html');
 });
 
 const chatSpace = socketIO;
 
 chatSpace.on('connection', (socket) => {
 
-  socket.on('createUser', (data) => {
+  socket.on('initUser', (payload) => {
 
     if (clients.length < 1) {
-      socket.username = data.username;
-      clients.push({ username: data.username, status: 1 })
-      socket.emit('usernameSuccess', { message: "user created succesfully" });
+      socket.username = payload.username;
+      clients.push({ username: payload.username, status: 1 });
+      console.log("User created succesfully");
+      socket.emit('usernameSuccess', payload.username);
     }
-    else if (clients.findIndex(user => user.username == data.username) == -1) {
-      socket.username = data.username;
-      clients.push({ username: data.username, status: 1 })
-      socket.emit('usernameSuccess', { message: "user created succesfully" });
+    else if (clients.findIndex(user => user.username == payload.username) == -1) {
+      socket.username = payload.username;
+      clients.push({ username: payload.username, status: 1 });
+      console.log("User created succesfully");
+      socket.emit('usernameSuccess', payload.username);
     } else {
-      let clientIndex = clients.findIndex(user => user.username == data.username)
+      let clientIndex = clients.findIndex(user => user.username == payload.username)
       if (clients[clientIndex].status == 0) {
         clients[clientIndex].status = 1;
-        socket.emit('usernameSuccess', { message: "welcome back user" });
+        console.log("Welcome back " + clients[clientIndex].username);
+        socket.emit('usernameSuccess', clients[clientIndex].username);
       } else {
-        socket.emit('usernameFailure', { message: "username already taken" });
+        console.log("Username already taken");
+        socket.emit('usernameFailure', { message: "Username already taken" });
       }
     }
   })
