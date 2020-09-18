@@ -86,22 +86,10 @@ function refreshOnlineUsers(data) {
   }
 }
 
-function displayOnlineUser(user) {
-  let userNode = document.createElement("LI");
-  let textnode = document.createTextNode(user.username);
-  if (user.status == 1)
-    userNode.id = "onlineUser";
-  else
-    userNode.id = "offlineUser";
-  userNode.appendChild(textnode);
-  userNode.setAttribute("class", "card hoverable" );
-  userNode.setAttribute("onClick", "selectUser(this)" );
-  document.getElementById("sideBoard").appendChild(userNode);
-}
-
 function displayOnlineUserV2(userData) {
   let div1 = document.createElement("DIV");
   div1.setAttribute("class", "chat_list");
+  div1.setAttribute("onClick", "selectUser(this)");
 
   let div2 = document.createElement("DIV");
   div2.setAttribute("class", "chat_people");
@@ -120,8 +108,13 @@ function displayOnlineUserV2(userData) {
   h5.appendChild(usernameText);
   let span = document.createElement('SPAN');
   span.setAttribute('class', 'chat_date');
-  let statusText = document.createTextNode(userData.status ? 'ONLINE' : 'OFFLINE');
-  span.appendChild(statusText);
+  if (userData.status) {
+    span.appendChild(document.createTextNode('ONLINE'));
+    span.id = 'user-online';
+  } else {
+    span.appendChild(document.createTextNode('OFFLINE'));
+    span.id = 'user-offline';
+  }
   h5.appendChild(span);
   div4.appendChild(h5);
 

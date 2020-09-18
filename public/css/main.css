@@ -150,3 +150,11 @@ img{ max-width:100%;}
   font-weight: bold;
   margin: auto;
 }
+
+#user-online {
+  color: green;
+}
+
+#user-offline {
+  color: red;
+}
