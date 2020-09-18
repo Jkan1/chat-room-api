@@ -53,7 +53,7 @@ chatSpace.on('connection', (socket) => {
     // setTimeout(() => { socket.emit('receivedMessage', { message: "hello " + socket.username }) }, 2000)
   })
 
-  socket.on('getOnlineUsers', (data) => {
+  socket.on('getOnlineUsers', () => {
     socket.emit('showOnlineUsers', { users: clients });
   })
 

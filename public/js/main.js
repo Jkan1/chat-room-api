@@ -5,6 +5,7 @@ socket.on('usernameFailure', failureUsername);
 
 socket.on('messageSent', messageSent);
 socket.on('receivedMessage', receivedMessage);
+
 socket.on('showOnlineUsers', refreshOnlineUsers);
 
 function scrollMessageBoard() {
@@ -75,13 +76,13 @@ function receivedMessage(data) {
 }
 
 function checkOnlineUsers() {
-  socket.emit('getOnlineUsers', "get online users list");
+  socket.emit('getOnlineUsers');
 }
 
 function refreshOnlineUsers(data) {
-  document.getElementById("sideBoard").innerHTML = '';
+  document.getElementById("inbox_chat").innerHTML = '';
   for (index = 0; index < data.users.length; index++) {
-    displayOnlineUser(data.users[index]);
+    displayOnlineUserV2(data.users[index]);
   }
 }
 
@@ -96,6 +97,47 @@ function displayOnlineUser(user) {
   userNode.setAttribute("class", "card hoverable" );
   userNode.setAttribute("onClick", "selectUser(this)" );
   document.getElementById("sideBoard").appendChild(userNode);
+}
+
+function displayOnlineUserV2(userData) {
+  let div1 = document.createElement("DIV");
+  div1.setAttribute("class", "chat_list");
+
+  let div2 = document.createElement("DIV");
+  div2.setAttribute("class", "chat_people");
+
+  let div3 = document.createElement("DIV");
+  div3.setAttribute("class", "chat_img");
+  let img = document.createElement("IMG");
+  img.setAttribute("src", "https://ptetutorials.com/images/user-profile.png");
+  div3.appendChild(img);
+
+  let div4 = document.createElement("DIV");
+  div4.setAttribute("class", "chat_ib");
+
+  let h5 = document.createElement('H5');
+  let usernameText = document.createTextNode(userData.username);
+  h5.appendChild(usernameText);
+  let span = document.createElement('SPAN');
+  span.setAttribute('class', 'chat_date');
+  let statusText = document.createTextNode(userData.status ? 'ONLINE' : 'OFFLINE');
+  span.appendChild(statusText);
+  h5.appendChild(span);
+  div4.appendChild(h5);
+
+  div2.appendChild(div3);
+  div2.appendChild(div4);
+  div1.appendChild(div2);
+
+  // let textnode = document.createTextNode('username');
+  // if (1)
+  //   userNode.id = "onlineUser";
+  // else
+  //   userNode.id = "offlineUser";
+  // userNode.appendChild(textnode);
+  // userNode.setAttribute("class", "card hoverable" );
+  // userNode.setAttribute("onClick", "selectUser(this)" );
+  document.getElementById("inbox_chat").appendChild(div1);
 }
 
 function selectUser(selectedItem){
