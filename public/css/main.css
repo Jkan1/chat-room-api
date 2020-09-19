@@ -59,7 +59,7 @@ img{ max-width:100%;}
 }
 .inbox_chat { height: 550px; overflow-y: scroll;}
 
-.active_chat{ background:#ebebeb;}
+.active_chat{ background:rgb(0, 209, 181);}
 
 .incoming_msg_img {
   display: inline-block;
@@ -70,6 +70,7 @@ img{ max-width:100%;}
   padding: 0 0 0 10px;
   vertical-align: top;
   width: 92%;
+  margin:5px 0 5px;
  }
  .received_withd_msg p {
   background: #ebebeb none repeat scroll 0 0;
@@ -101,7 +102,7 @@ img{ max-width:100%;}
   padding: 5px 10px 5px 12px;
   width:100%;
 }
-.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.outgoing_msg{ overflow:hidden; margin:5px 0 5px;}
 .sent_msg {
   float: right;
   width: 46%;

@@ -8,7 +8,6 @@ const server = http.createServer(app);
 const socket_io = require('socket.io');
 const socketIO = socket_io(server);
 
-let rooms = [];
 let clients = [];
 
 app.use('/', express.static('public'));
@@ -22,35 +21,37 @@ const chatSpace = socketIO;
 chatSpace.on('connection', (socket) => {
 
   socket.on('initUser', (payload) => {
-
     if (clients.length < 1) {
       socket.username = payload.username;
       clients.push({ username: payload.username, status: 1 });
-      console.log("User created succesfully");
+      socket.leaveAll()
+      socket.join(payload.username);
+      socket.USERNAME = payload.username;
+      console.log("New User :", socket.USERNAME);
       socket.emit('usernameSuccess', payload.username);
     }
     else if (clients.findIndex(user => user.username == payload.username) == -1) {
       socket.username = payload.username;
       clients.push({ username: payload.username, status: 1 });
-      console.log("User created succesfully");
+      socket.leaveAll()
+      socket.join(payload.username);
+      socket.USERNAME = payload.username;
+      console.log("New User :", socket.USERNAME);
       socket.emit('usernameSuccess', payload.username);
     } else {
       let clientIndex = clients.findIndex(user => user.username == payload.username)
       if (clients[clientIndex].status == 0) {
         clients[clientIndex].status = 1;
-        console.log("Welcome back " + clients[clientIndex].username);
+        socket.leaveAll()
+        socket.join(clients[clientIndex].username);
+        socket.USERNAME = payload.username;
+        console.log("Old User :", socket.USERNAME);
         socket.emit('usernameSuccess', clients[clientIndex].username);
       } else {
-        console.log("Username already taken");
+        console.error("Username already taken");
         socket.emit('usernameFailure', { message: "Username already taken" });
       }
     }
-  })
-
-  socket.on('sendMessage', data => {
-    //Perform DB calls
-    socket.emit('messageSent', { message: data.message })
-    // setTimeout(() => { socket.emit('receivedMessage', { message: "hello " + socket.username }) }, 2000)
   })
 
   socket.on('getOnlineUsers', () => {
@@ -60,30 +61,13 @@ chatSpace.on('connection', (socket) => {
   socket.on('disconnect', function () {
     if (clients.length > 0) {
       let clientIndex = clients.findIndex(user => user.username == socket.username);
-      clients[clientIndex].status = 0
+      clients[clientIndex] ? clients[clientIndex].status = 0 : null;
     }
   });
 
-
-
-
-  socket.on('sendTo',(data)=>{
-    console.log("SEND TO DATA",data);
-    console.log("ROOMS", rooms);
-    console.log("clients", clients);
-    rooms.push(data.to);
-    socket.join(data.to);
-    socket.to(data.to).emit('receivedMessage', data.message || "asdasdASLLL");
-  })
-
-  socket.on('JoinRoom', (data) => {
-    console.log(data);
-    // console.log(socket.adapter.rooms);
-    // Object.keys(socket.adapter.rooms).forEach((roomName)=>{
-      socket.leaveAll()
-    // })
-    socket.join(data.roomName);
-  })
+  socket.on('sendTo', (data) => {
+    socket.to(data.to).emit('receivedMessage', { message: data.message || "BLOCKED", from: socket.USERNAME });
+  });
 
 
 });
