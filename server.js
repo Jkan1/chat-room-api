@@ -29,6 +29,7 @@ chatSpace.on('connection', (socket) => {
       socket.USERNAME = payload.username;
       console.log("New User :", socket.USERNAME);
       socket.emit('usernameSuccess', payload.username);
+      chatSpace.emit('showOnlineUsers', { users: clients });
     }
     else if (clients.findIndex(user => user.username == payload.username) == -1) {
       socket.username = payload.username;
@@ -38,6 +39,7 @@ chatSpace.on('connection', (socket) => {
       socket.USERNAME = payload.username;
       console.log("New User :", socket.USERNAME);
       socket.emit('usernameSuccess', payload.username);
+      chatSpace.emit('showOnlineUsers', { users: clients });
     } else {
       let clientIndex = clients.findIndex(user => user.username == payload.username)
       if (clients[clientIndex].status == 0) {
@@ -47,6 +49,7 @@ chatSpace.on('connection', (socket) => {
         socket.USERNAME = payload.username;
         console.log("Old User :", socket.USERNAME);
         socket.emit('usernameSuccess', clients[clientIndex].username);
+        chatSpace.emit('showOnlineUsers', { users: clients });
       } else {
         console.error("Username already taken");
         socket.emit('usernameFailure', { message: "Username already taken" });
@@ -56,13 +59,14 @@ chatSpace.on('connection', (socket) => {
 
   socket.on('getOnlineUsers', () => {
     socket.emit('showOnlineUsers', { users: clients });
-  })
+  });
 
   socket.on('disconnect', function () {
     if (clients.length > 0) {
       let clientIndex = clients.findIndex(user => user.username == socket.username);
       clients[clientIndex] ? clients[clientIndex].status = 0 : null;
     }
+    chatSpace.emit('showOnlineUsers', { users: clients });
   });
 
   socket.on('sendTo', (data) => {

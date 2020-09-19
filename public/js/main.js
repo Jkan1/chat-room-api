@@ -38,6 +38,7 @@ function successUsername(username) {
   userCreation.style.display = 'none';
   messageSpace.style.display = 'block';
   checkOnlineUsers();
+  createUserDesc();
 }
 
 function failureUsername(data) {
@@ -208,4 +209,18 @@ function createIncomingMessage(messageData) {
   div1.appendChild(div2);
 
   document.getElementById("msg_history").appendChild(div1);
+}
+
+function createUserDesc() {
+  let P = document.createElement("P");
+  P.setAttribute("class", "user-desc");
+
+  let userDescText = "You are logged in as ";
+  let userDesc = document.createTextNode(userDescText);
+  P.appendChild(userDesc);
+  let userNameSpan = document.createElement("SPAN");
+  userNameSpan.appendChild(document.createTextNode(GLOBAL_USERNAME));
+  P.appendChild(userNameSpan);
+
+  document.getElementById("container").appendChild(P);
 }

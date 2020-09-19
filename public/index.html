@@ -1,6 +1,7 @@
 <html>
 
 <head>
+  <title>Chat Room</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
@@ -13,7 +14,7 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container" id="container">
     <h3 class=" text-center">Chat Room</h3>
 
     <div id="user-creation">
@@ -21,7 +22,6 @@
         <form>
           <h3>Enter username</h3>
           <div class="form-group">
-            <label for="userNameInput">username</label>
             <input type="text" class="form-control" style="max-width: 200px;" name="userNameInput" id="userNameInput">
           </div>
           <button class="btn btn-primary" type="button" onclick="onUsernameSubmit()">Start!</button>
@@ -34,7 +34,7 @@
         <div class="inbox_people">
           <div class="headind_srch">
             <div class="recent_heading">
-              <h4>Recent</h4>
+              <h4>Users</h4>
             </div>
             <div class="srch_bar">
               <button class="btn btn-sm btn-primary" onclick="checkOnlineUsers()">REFRESH</button>
@@ -62,8 +62,8 @@
 
     </div>
   </div>
-  <script>
 
+  <script>
     var input = document.getElementById("messageInput");
     input.addEventListener("keyup", function (event) {
       if (event.keyCode === 13) {

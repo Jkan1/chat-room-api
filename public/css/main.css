@@ -159,3 +159,11 @@ img{ max-width:100%;}
 #user-offline {
   color: red;
 }
+
+.user-desc {
+  text-align: center;
+}
+
+.user-desc span {
+  font-weight: bold;
+}
